@@ -1,9 +1,13 @@
 const express = require('express');
 const SalesAgentApi = require('./app/api/salesAgent');
+const AccountApi = require('./app/api/account');
+
 /* routes for push configuration api */
 module.exports = (function() {
     'use strict';
     const api = express.Router();
+    api.post('/login', AccountApi.login);
+    api.post('/logout', AccountApi.logout);
     //Sales Agents
     // api.post('/saleagents', SalesAgentApi.create);
     // api.delete('/saleagents/:id', SalesAgentApi.delete);
