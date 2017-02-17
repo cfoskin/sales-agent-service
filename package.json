@@ -1,0 +1,35 @@
+{
+  "name": "sales-agent-service",
+  "version": "1.0.1",
+  "description": "sales agent microservice extracted from aerodoc node",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cfoskin/sales-agent-service.git"
+  },
+  "author": "Colum Foskin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cfoskin/sales-agent-service/issues"
+  },
+  "homepage": "https://github.com/cfoskin/sales-agent-service#readme",
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "chai": "3.5.0",
+    "cookie-parser": "1.4.3",
+    "express": "4.14.0",
+    "mongodb": "2.2.19",
+    "mongoose": "4.6.3",
+    "mongoose-double": "0.0.1",
+    "morgan": "1.7.0",
+    "unifiedpush-node-sender": "^0.14.1"
+  },
+  "devDependencies": {
+    "istanbul": "0.4.5",
+    "mocha": "3.1.2",
+    "supertest": "2.0.1"
+  }
+}
