@@ -1,5 +1,5 @@
 'use strict';
-const SalesAgent = require('../models/SalesAgent');
+const SalesAgent = require('../model/SalesAgent');
 //authentication to be implemented
 exports.login = (req, res) => {
     const salesAgent = req.body;
