@@ -25,8 +25,6 @@ var host = 'localhost';
 app.use(mdk_express.mdkSessionStart);
 app.use(requestId());
 
-
-
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
