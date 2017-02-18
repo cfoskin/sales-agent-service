@@ -1,10 +1,14 @@
 {
   "name": "sales-agent-service",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "sales agent microservice extracted from aerodoc node",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "mocha",
+    "populateDb": "node ./scripts/loadSalesAgents.js",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover -x **/app/controllers/** -x **/app/utility/** node_modules/mocha/bin/_mocha test/*"
   },
   "repository": {
     "type": "git",
