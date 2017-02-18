@@ -7,7 +7,7 @@ const mdk_winston = require('datawire_mdk_winston');
 const options = {
     mdk: mdk_express.mdk,
     name: 'sales-agent-service'
-}
+};
 winston.add(mdk_winston.MDKTransport, options);
 
 exports.create = (req, res) => {
