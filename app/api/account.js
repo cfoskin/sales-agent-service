@@ -7,7 +7,8 @@ const mdk_winston = require('datawire_mdk_winston');
 const options = {
     mdk: mdk_express.mdk,
     name: 'sales-agent-service-account'
-}
+};
+
 winston.add(mdk_winston.MDKTransport, options);
 //authentication to be implemented
 exports.login = (req, res) => {
