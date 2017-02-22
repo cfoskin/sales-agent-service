@@ -1,18 +1,18 @@
 'use strict';
 const SalesAgent = require('../model/SalesAgent');
 const winston = require('winston');
-const mdk_express = require('datawire_mdk_express');
-const mdk_winston = require('datawire_mdk_winston');
-// Route Winston logging to the MDK:
-const options = {
-    mdk: mdk_express.mdk,
-    name: 'sales-agent-service'
-};
-winston.add(mdk_winston.MDKTransport, options);
+require('winston-loggly-bulk');
+
+winston.add(winston.transports.Loggly, {
+    token: process.env.LOGGLY_TOKEN,
+    subdomain: "columfoskin",
+    tags: ["sales-agent-service"],
+    json: true
+});
 
 exports.create = (req, res) => {
     const salesAgent = new SalesAgent(req.body);
-    winston.info('Received request to create new sales agent: ' + salesAgent);
+    winston.info('Received request to create new sales agent: ' + salesAgent + ' - requestId: ' + req.requestId);
     salesAgent.id = Date.now().toString();
     salesAgent.save()
         .then(newSalesAgent => {
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
 };
 
 exports.getOne = (req, res, next) => {
-    winston.info('Received request to get sales agent' + req.params.id);
+    winston.info('Received request to get sales agent' + req.params.id + ' - requestId: ' + req.requestId);
     SalesAgent.findOne({ id: req.params.id })
         .then(salesAgent => {
             if (salesAgent != null) {
@@ -47,7 +47,7 @@ exports.getOne = (req, res, next) => {
 };
 
 exports.getAll = (req, res) => {
-    winston.info('Received request to get all sales agents');
+    winston.info('Received request to get all sales agents - requestId: ' + req.requestId);
     SalesAgent.find({}).exec()
         .then(salesAgents => {
             winston.info('retrieved sales agents' + JSON.stringify(salesAgents));
@@ -56,7 +56,7 @@ exports.getAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    winston.info('Received request to update sales agent: ' + req.params.id);
+    winston.info('Received request to update sales agent: ' + req.params.id + ' - requestId: ' + req.requestId);
     SalesAgent.findOneAndUpdate({ id: req.params.id }, { $set: req.body }, { 'new': true })
         .then(salesAgent => {
             console.log(salesAgent);
@@ -75,7 +75,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    winston.info('Received request to delete sales agent: ' + req.params.id);
+    winston.info('Received request to delete sales agent: ' + req.params.id + ' - requestId: ' + req.requestId);
     SalesAgent.remove({ id: req.params.id })
         .then(salesAgent => {
             winston.info('deleted sales agent: ' + JSON.stringify(salesAgent));
@@ -100,7 +100,7 @@ var createFilterObject = (path, filter) => {
 };
 
 exports.searchAgents = (req, res) => {
-    winston.info('Received request to search for agents in : ' + req.query.status + ' ' + req.query.location);
+    winston.info('Received request to search for agents in : ' + req.query.status + ' ' + req.query.location + ' - requestId: ' + req.requestId);
     let filterObject = {};
     let path;
     if (req.query.status != '') {

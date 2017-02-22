@@ -1,15 +1,8 @@
 'use strict';
 const SalesAgent = require('../model/SalesAgent');
 const winston = require('winston');
-const mdk_express = require('datawire_mdk_express');
-const mdk_winston = require('datawire_mdk_winston');
-// Route Winston logging to the MDK:
-const options = {
-    mdk: mdk_express.mdk,
-    name: 'sales-agent-service-account'
-};
+require('winston-loggly-bulk');
 
-winston.add(mdk_winston.MDKTransport, options);
 //authentication to be implemented
 exports.login = (req, res) => {
     const salesAgent = req.body;
