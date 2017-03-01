@@ -10,6 +10,10 @@ winston.add(winston.transports.Loggly, {
     json: true
 });
 
+if(process.env.NODE_ENV === 'test'){
+    winston.remove(winston.transports.Console);
+};
+
 exports.create = (req, res) => {
     const salesAgent = new SalesAgent(req.body);
     winston.info('Received request to create new sales agent: ' + salesAgent + ' - requestId: ' + req.requestId);
