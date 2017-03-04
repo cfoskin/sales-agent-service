@@ -1,0 +1,203 @@
+swagger: '2.0'
+info:
+  title: Aerodoc Sales Agent Service Node API
+  description: Backend sales agent service for the Aerodoc application - The id (not _id) field is used for all HTTP requests.
+  version: 1.0.0
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+basePath: /aerodoc/rest
+paths:
+  /saleagents:
+    get:
+      summary: Return the list of sales agents for the app
+      description: |
+        Return the list of sales agents for the app.
+      operationId: listSalesAgents
+      tags:
+        - Sales Agents
+      responses:
+        '200':
+          description: Sales Agents listed successfully
+          schema:
+            $ref: '#/definitions/SalesAgentsListResponse'
+        '404':
+          description: No sales agents found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '500':
+          description: Application error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    post:
+      summary: Create a sales agent
+      description: |
+        The saleagents endpoint creates a new sales agent.
+      operationId: createAgent
+      parameters:
+        - in: body
+          name: salesAgentInfo
+          description: The name of the agent
+          required: true
+          schema:
+            $ref: '#/definitions/SalesAgent'
+      tags:
+        - Sales Agents
+      responses:
+        '201':
+          description: Sales agent successfully created
+          schema:
+            $ref: '#/definitions/CreationSuccessResponse'
+        '400':
+          description: Missing param
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+        '500':
+          description: Application error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /salesagents/{id}:
+    get:
+      summary: Get one sales agent.
+      description: |
+        Return the a single sales agent - use id (not _id).
+      operationId: getSalesAgent
+      parameters:
+        - $ref: "#/parameters/id"
+      tags:
+        - Sales Agents
+      responses:
+        '200':
+          description: Sales agent returned successfully
+          schema:
+            $ref: '#/definitions/GetSuccessResponse'
+        '404':
+          description: No sales agent found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '500':
+          description: Application error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /saleagents/{id}:
+    put:
+      summary: Update a sales agent
+      description: |
+        The saleagents endpoint updates an existing sales agent - use id (not _id).
+      operationId: updateLead
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: salesAgentInfo
+          description: The sales agents parameters
+          required: true
+          schema:
+            $ref: '#/definitions/CreateSalesAgentParams'
+      tags:
+        - Sales Agents
+      responses:
+        '200':
+          description: Successfuly updated sales agent
+          schema:
+            $ref: '#/definitions/UpdateSuccessResponse'
+        '400':
+          description: Bad param
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+        '500':
+          description: Application error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      summary: Delete a sales agent
+      description: |
+        The saleagents endpoint deletes an existing lead - use id (not _id).
+      operationId: deleteLead
+      parameters:
+        - $ref: "#/parameters/id"
+      tags:
+        - Sales Agents
+      responses:
+        '200':
+          description: Successfuly deleted sales agent
+          schema:
+            $ref: '#/definitions/DeleteSuccessResponse'
+        '404':
+          description: Id not found 
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '500':
+          description: Application error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+parameters:
+  id:
+    name: id
+    in: path
+    description: the id of the object
+    type: string
+    required: true
+definitions:
+  GeneralMessage:
+    type: object
+    properties:
+      message:
+        type: string
+  CreationSuccessResponse:
+    $ref: '#/definitions/GeneralMessage'
+  UpdateSuccessResponse:
+    $ref: '#/definitions/GeneralMessage'
+  DeleteSuccessResponse:
+    $ref: '#/definitions/GeneralMessage'
+  BadRequestResponse:
+    $ref: '#/definitions/GeneralMessage'
+  ErrorResponse:
+    $ref: '#/definitions/GeneralMessage'
+  NotFoundResponse:
+    $ref: '#/definitions/GeneralMessage'
+  GetSuccessResponse:
+    $ref: '#/definitions/GeneralMessage'
+  PushSuccessResponse:
+    $ref: '#/definitions/GeneralMessage'
+  CollectionInfo:
+    type: object
+    properties:
+      ns:
+        type: string
+        description: the namespace of the collection
+      name:
+        type: string
+        description: the name of the collection
+      count:
+        type: integer
+        description: the number of documents in the collection
+      size:
+        type: integer
+        description: the size of the collection in bytes
+  SalesAgentsListResponse:
+    type: array
+    items:
+      $ref: '#/definitions/SalesAgent'
+  SalesAgent:
+    type: object
+    properties:
+      loginName:
+        type: string
+      status:
+        type: string
+      password:
+        type: string
+      location:
+        type: string
+      latitude:
+        type: double
+      longitude:
+        type: double
+    required:
+      - loginName
+      - status
+      - password
+      - location
