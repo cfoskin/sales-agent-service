@@ -26,6 +26,12 @@ app.use(function(req, res, next) {
     next();
 });
 
+// Swagger API docs.
+app.use('/aerodoc/sales-agent-service/docs', express.static(path.join(__dirname, './api-docs')));
+app.get('/aerodoc/sales-agent-service/docs', (req, res) => {
+    res.sendFile(path.join(__dirname, './api-docs/index.html'));
+});
+
 // fulfils pre-flight/promise request
 app.options('*', function(req, res) {
     res.sendStatus(200);
