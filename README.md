@@ -2,8 +2,13 @@
 
 This is the backend sales agent service for the Aerodoc Node.js Microservices project. 
 
-##Running 
+##API Docs 
 
+The API documentation is implemented using Swagger UI and can be found at:
+
+        "serverurl/aerodoc/sales-agent-service/docs"
+        
+##Running 
 
 Docker Compose:
 
