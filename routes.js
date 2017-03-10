@@ -1,5 +1,5 @@
 const express = require('express');
-const SalesAgentApi = require('./app/api/salesAgent');
+const SalesAgentApi = require('./app/api/SalesAgent');
 const AccountApi = require('./app/api/account');
 
 /* routes for push configuration api */
