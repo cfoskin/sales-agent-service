@@ -60,22 +60,40 @@ exports.getAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
+    console.log(req.body);
     winston.info('Received request to update sales agent: ' + req.params.id + ' - requestId: ' + req.requestId);
-    SalesAgent.findOneAndUpdate({ id: req.params.id }, { $set: req.body }, { 'new': true })
+     SalesAgent.findOne({ id: req.params.id })
         .then(salesAgent => {
-            console.log(salesAgent);
-            if (salesAgent != null) {
-                winston.info('updated sales agent' + JSON.stringify(salesAgent));
-                return res.status(200).json(salesAgent);
-            };
-        })
-        .catch(err => {
+            let coordinates = [
+                [],
+                []
+            ];
+            //setting the cordinates on the 2d array for geospatial query
+            coordinates[0] = req.body.latitude;
+            coordinates[1] = req.body.longitude;
+            //update agent details
+            salesAgent.latitude = req.body.latitude;
+            salesAgent.longitude = req.body.longitude;
+            salesAgent.coordinates = coordinates;
+            salesAgent.status = req.body.status;
+            salesAgent.save().then(newSalesAgent => {
+                    winston.info('updated sales agent' + JSON.stringify(salesAgent));
+                    return res.status(204).json(newSalesAgent);
+                })
+                .catch(err => {
+                    winston.error(JSON.stringify(err));
+                    return res.status(500).json({
+                        message: 'Error updating sales agent',
+                        error: err
+                    });
+                });
+        }).catch(err => {
             winston.error(JSON.stringify(err));
-            return res.status(501).json({
-                message: 'error updating',
+            return res.status(404).json({
+                message: 'id not found',
                 error: err
             });
-        })
+        });
 };
 
 exports.delete = (req, res) => {
@@ -122,6 +140,29 @@ exports.searchAgents = (req, res) => {
 };
 
 exports.searchAgentsInRange = (req, res) => {
-    //descoped from sprint due to android feature missing
-    return res.status(200).json([]);
+    winston.info('Received request to search for agents in range of: lat:' + req.query.latitude + ',  long: ' + req.query.longitude
+     + ' - requestId: ' + req.requestId);
+    var limit = req.query.limit || 10;
+    var radius = req.query.radius;
+    radius /= 111.12;
+    var coords = [];
+    coords[0] = req.query.latitude;
+    coords[1] = req.query.longitude;
+    // find an agent in the radius of the circle on the map
+    SalesAgent.find({
+        coordinates: {
+            $near: coords,
+            $maxDistance: radius
+        }
+    }).limit(limit).exec(function(err, salesAgents) {
+        if (err) {
+            winston.error(JSON.stringify(err));
+            return res.status(204).json({
+                message: 'no agents found',
+                salesAgents: []
+            });
+        }
+        winston.info('found sales agents:' + JSON.stringify(salesAgents));
+        res.status(200).json(salesAgents);
+    });
 };
