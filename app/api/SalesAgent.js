@@ -60,7 +60,6 @@ exports.getAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    console.log(req.body);
     winston.info('Received request to update sales agent: ' + req.params.id + ' - requestId: ' + req.requestId);
      SalesAgent.findOne({ id: req.params.id })
         .then(salesAgent => {
