@@ -22,21 +22,18 @@ const salesAgentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    location: {
-        type: String,
-        required: true
+      location: {
+        type: String
     },
     coordinates: {
         type: [Number], // [<longitude>, <latitude>]
         index: '2d' // create the geospatial index
     },
     latitude: {
-        type: Number,
-        required: false
+        type: Number
     },
     longitude: {
-        type: Number,
-        required: false
+        type: Number
     }
 });
 

@@ -156,7 +156,7 @@ exports.searchAgentsInRange = (req, res) => {
         }
     }).limit(limit).exec(function(err, salesAgents) {
         if (err) {
-            winston.error(JSON.stringify(err));
+           winston.info('no agents found');
             return res.status(204).json({
                 message: 'no agents found',
                 salesAgents: []
