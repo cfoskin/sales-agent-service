@@ -32,7 +32,7 @@ exports.create = (req, res) => {
         });
 };
 
-exports.getOne = (req, res, next) => {
+exports.getOne = (req, res) => {
     winston.info('Received request to get sales agent' + req.params.id + ' - requestId: ' + req.requestId);
     SalesAgent.findOne({ id: req.params.id })
         .then(salesAgent => {
@@ -60,8 +60,7 @@ exports.getAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    console.log(req.body);
-    winston.info('Received request to update sales agent: ' + req.params.id + ' - requestId: ' + req.requestId);
+    winston.info('Received request to update sales agent: ' + req.params.id + ' - requestId: ' + req.requestId + ' new info:' + JSON.stringify(req.body));
      SalesAgent.findOne({ id: req.params.id })
         .then(salesAgent => {
             let coordinates = [
@@ -76,6 +75,8 @@ exports.update = (req, res) => {
             salesAgent.longitude = req.body.longitude;
             salesAgent.coordinates = coordinates;
             salesAgent.status = req.body.status;
+            salesAgent.location = req.body.location;
+            winston.info('Saving new sales agent info: ' + req.params.id + ' - requestId: ' + req.requestId + JSON.stringify(salesAgent));
             salesAgent.save().then(newSalesAgent => {
                     winston.info('updated sales agent' + JSON.stringify(salesAgent));
                     return res.status(204).json(newSalesAgent);
@@ -90,8 +91,7 @@ exports.update = (req, res) => {
         }).catch(err => {
             winston.error(JSON.stringify(err));
             return res.status(404).json({
-                message: 'id not found',
-                error: err
+                error: err.message
             });
         });
 };
@@ -154,7 +154,7 @@ exports.searchAgentsInRange = (req, res) => {
             $near: coords,
             $maxDistance: radius
         }
-    }).limit(limit).exec(function(err, salesAgents) {
+    }).limit(limit).exec((err, salesAgents) => {
         if (err) {
            winston.info('no agents found');
             return res.status(204).json({
