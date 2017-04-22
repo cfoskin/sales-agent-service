@@ -4,15 +4,15 @@ This is the backend sales agent service for the Aerodoc Node.js Microservices pr
 
 Other services: 
 
-(https://github.com/cfoskin/lead-service)
+https://github.com/cfoskin/lead-service
 
-(https://github.com/cfoskin/push-configuration-service)
+https://github.com/cfoskin/push-configuration-service
 
-(https://github.com/cfoskin/aerodoc-client)
+https://github.com/cfoskin/aerodoc-client
 
 API Gateway on Dockerhub:
 
-(https://hub.docker.com/r/cfoskin/nginx-proxy-local/)
+https://hub.docker.com/r/cfoskin/nginx-proxy-local/
 
 
 ## API Docs 
