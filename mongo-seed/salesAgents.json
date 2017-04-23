@@ -1,0 +1,3 @@
+{"_id":{"$oid":"58862e86d78966c610fd43b6"},"loginName":"jake","password":"123","location":"New York","status":"STANDBY","latitude":40.7128,"longitude":-74.0058983,"id":"2169935121805939000","coordinates":[40.7128,-74.0058983],"__v":2}
+{"_id":{"$oid":"58bf24aac96b6773a15ba088"},"id":"1488921770535","coordinates":[40.7128,-74.0059],"location":"New York","loginName":"bob","password":"123","status":"STANDBY","latitude":40.7128,"longitude":-74.0059,"__v":0}
+{"_id":{"$oid":"58bf22ea4fc75872e9be9b81"},"id":"1488921322363","coordinates":[40.7128,-74.0058983],"location":"New York","loginName":"maria","password":"123","status":"STANDBY","latitude":40.7128,"longitude":-74.0058983,"__v":1}
