@@ -25,13 +25,13 @@ The API documentation is implemented using Swagger UI and can be found at:
 
 Docker Compose:
 
-To run service with all other backend services use Docker Compose with the docker-compose.yaml file.
+To run service with all other backend services use Docker Compose with the docker-compose.yaml file. This will also seed the database with sales agents data.
 
         docker-compose up
         
 npm:
 
-To run service on its own Mongo needs to be installed and running.
+To run service on its own Mongo needs to be installed and running. 
 
 Install dependencies
 
