@@ -1,11 +1,15 @@
 version: '2'
 services:
 
-  mongo:
+  mongodb:
     image: mongo
-    container_name: mongo
     ports:
       - "27017:27017"
+
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongodb
 
   nginx_proxy_local:
     image: cfoskin/nginx-proxy-local
@@ -17,25 +21,28 @@ services:
     image: cfoskin/lead-service
     container_name: lead-service
     depends_on:
-      - "mongo"
+      - "mongodb"
     environment:
       - LOGGLY_TOKEN=$LOGGLY_TOKEN
+      - MONGO_URL=mongodb://mongodb:27017/aerodoc
 
   sales_agent_service:
     image: cfoskin/sales-agent-service
     container_name: sales-agent-service
     depends_on:
-      - "mongo"
+      - "mongodb"
     environment:
       - LOGGLY_TOKEN=$LOGGLY_TOKEN
+      - MONGO_URL=mongodb://mongodb:27017/aerodoc
 
   push_configuraton_service:
     image: cfoskin/push-configuraton-service
     container_name: push-configuraton-service
     depends_on:
-      - "mongo"
+      - "mongodb"
     environment:
       - LOGGLY_TOKEN=$LOGGLY_TOKEN
+      - MONGO_URL=mongodb://mongodb:27017/aerodoc
 
   aerodoc_client:
     image: cfoskin/aerodoc-client
